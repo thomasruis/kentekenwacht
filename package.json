@@ -1,0 +1,21 @@
+{
+  "name": "kentekenwacht",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Geautomatiseerde APK- en terugroepactie-monitor op basis van RDW open data",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "verify": "node scripts/verify.mjs",
+    "test": "node scripts/beveiliging-test.mjs && node scripts/zelftest-lokaal.mjs",
+    "test:e2e": "node scripts/demo-build.mjs && node scripts/e2e-test.mjs",
+    "demo": "node scripts/demo-build.mjs",
+    "dev": "wrangler pages dev public --d1 DB=kentekenwacht"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

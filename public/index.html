@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kentekencheck: APK, terugroepacties en voertuiggegevens | Kentekenwacht</title>
+<meta name="description" content="Gratis kentekencheck met openstaande terugroepacties, APK-vervaldatum, keuringsgebreken en alle RDW-voertuiggegevens. Geen account nodig.">
+<meta property="og:title" content="Kentekencheck: APK, terugroepacties en voertuiggegevens">
+<meta property="og:description" content="Gratis kentekencheck met openstaande terugroepacties en APK-vervaldatum, uit RDW Open Data.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="nl_NL">
+<meta name="theme-color" content="#f5c518">
+<link rel="stylesheet" href="/assets/kw.css">
+<link rel="icon" href="/assets/plaat.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="kw-kop">
+  <div class="wrap">
+    <a class="kw-logo" href="/"><span class="kw-logo-mark" aria-hidden="true">NL</span>Kentekenwacht</a>
+    <nav class="kw-nav">
+      <a href="/">Kenteken checken</a>
+      <a href="/wacht/">Bewaking</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap kw-hero">
+    <h1>Check gratis of jouw auto een openstaande terugroepactie heeft</h1>
+    <p class="lead">Eén kenteken, vijf RDW-registers: APK-vervaldatum, terugroepacties,
+       keuringsgebreken en alle voertuiggegevens. Zonder account.</p>
+
+    <form id="kw-form" class="kw-zoek" autocomplete="off">
+      <label class="kw-plaat-veld" for="kw-kenteken">
+        <span class="kw-plaat-nl" aria-hidden="true"><span aria-hidden="true">★</span>NL</span>
+        <input id="kw-kenteken" name="kenteken" type="text" inputmode="text"
+               placeholder="XX-999-X" maxlength="8" spellcheck="false"
+               aria-label="Kenteken" autofocus>
+      </label>
+      <button id="kw-knop" class="knop" type="submit">Check kenteken</button>
+    </form>
+    <div id="kw-uitvoer" class="wrap verborgen" style="text-align:left;padding-top:26px"></div>
+
+    <p class="kw-hint">Gratis · geen registratie · bron: RDW Open Data</p>
+  </section>
+
+  <section class="wrap">
+    <div class="kaart prose">
+      <h2>Waarom een terugroepactie je vaak niet bereikt</h2>
+      <p>Fabrikanten roepen voertuigen terug als er een veiligheidsprobleem is — remmen,
+         airbags, stuurinrichting. De fabrikant schrijft dan de op dat moment bekende
+         eigenaar aan. Heb je de auto tweedehands gekocht of ben je verhuisd, dan komt
+         die brief er vaak niet, terwijl het defect er wel is.</p>
+      <p>Herstel na een terugroepactie is <strong>altijd gratis</strong> bij een
+         merkdealer, ook als de garantie allang is verlopen.</p>
+      <p class="bron-noot">Het RDW publiceert deze gegevens zelf ook, op
+         <a href="https://ovi.rdw.nl" rel="noopener">ovi.rdw.nl</a>. Daar moet je alleen
+         zelf gaan kijken — wij doen het elke dag voor je en mailen als er iets
+         verandert.</p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="kaart" style="border-color:var(--accent)">
+      <h2>Laat het je automatisch melden</h2>
+      <p class="prose">Een terugroepactie verschijnt zonder aankondiging en een APK verloopt stil.
+         Kentekenwacht controleert jouw kenteken elke dag en mailt zodra er iets verandert.</p>
+      <p><a class="knop" href="/wacht/">Bekijk bewaking</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="kw-voet">
+  <div class="wrap">
+    <div>
+      <strong>Kentekenwacht</strong><br>
+      Gegevens uit <a href="https://opendata.rdw.nl" rel="noopener">RDW Open Data</a>.
+      Geen officiële RDW-dienst.
+    </div>
+    <div>
+      <a href="/over/">Over</a> ·
+      <a href="/privacy/">Privacy</a> ·
+      <a href="/voorwaarden/">Voorwaarden</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/kw.js" defer></script>
+</body>
+</html>

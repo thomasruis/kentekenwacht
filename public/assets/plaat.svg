@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 44">
+<rect x="1.5" y="1.5" width="61" height="41" rx="6" fill="#f5c518" stroke="#1a1a1a" stroke-width="3"/>
+<rect x="1.5" y="1.5" width="14" height="41" rx="6" fill="#039"/>
+<rect x="9" y="1.5" width="7" height="41" fill="#039"/>
+<text x="8.5" y="30" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">N</text>
+<text x="40" y="32" font-family="ui-monospace,monospace" font-size="20" font-weight="700" fill="#1a1a1a" text-anchor="middle">KW</text>
+</svg>

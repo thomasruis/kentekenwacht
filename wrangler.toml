@@ -1,0 +1,18 @@
+name = "kentekenwacht"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "public"
+
+# De D1-database waarin abonnees, kentekens en verzonden meldingen staan.
+# Maak hem aan met:  npx wrangler d1 create kentekenwacht
+# en plak het database_id hieronder.
+[[d1_databases]]
+binding = "DB"
+database_name = "kentekenwacht"
+database_id = "PLAK_HIER_JE_DATABASE_ID"
+
+# Niet-geheime variabelen. Geheimen (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET,
+# RESEND_API_KEY, CRON_SECRET) zet je in het Cloudflare-dashboard onder
+# Settings > Environment variables, als "encrypted".
+[vars]
+SITE_URL = "https://kentekenwacht.pages.dev"
+MAIL_AFZENDER = "Kentekenwacht <onboarding@resend.dev>"

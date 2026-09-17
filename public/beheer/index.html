@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mijn bewaking — Kentekenwacht</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/assets/kw.css">
+<link rel="icon" href="/assets/plaat.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="kw-kop">
+  <div class="wrap">
+    <a class="kw-logo" href="/"><span class="kw-logo-mark" aria-hidden="true">NL</span>Kentekenwacht</a>
+    <nav class="kw-nav">
+      <a href="/">Kenteken checken</a>
+      <a href="/terugroepacties/">Terugroepacties</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:26px">
+  <h1>Mijn bewaking</h1>
+  <div id="kw-beheer">
+    <div class="status neutraal"><span class="ikoon">⏳</span><div>
+      <strong>Gegevens laden…</strong></div></div>
+  </div>
+</main>
+
+<footer class="kw-voet">
+  <div class="wrap">
+    <div><strong>Kentekenwacht</strong><br>Gegevens uit RDW Open Data. Geen officiële RDW-dienst.</div>
+    <div><a href="/over/">Over</a> · <a href="/privacy/">Privacy</a> · <a href="/voorwaarden/">Voorwaarden</a></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var doel = document.getElementById('kw-beheer');
+  var token = new URLSearchParams(location.search).get('t');
+
+  function esc(w) {
+    return String(w == null ? '' : w)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function normaliseer(s) {
+    return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  }
+  function melding(klasse, ikoon, kop, tekst) {
+    return '<div class="status ' + klasse + '"><span class="ikoon">' + ikoon +
+      '</span><div><strong>' + esc(kop) + '</strong>' +
+      (tekst ? '<p>' + esc(tekst) + '</p>' : '') + '</div></div>';
+  }
+
+  if (!token) {
+    doel.innerHTML = melding('let-op', '⚠️', 'Geen beheerlink',
+      'Open deze pagina via de link in je e-mail van Kentekenwacht.');
+    return;
+  }
+
+  var STATUS_TEKST = {
+    actief: ['ok', '✅', 'Abonnement actief'],
+    opgezegd: ['neutraal', 'ℹ️', 'Abonnement opgezegd'],
+    betaling_mislukt: ['alarm', '⛔', 'Betaling mislukt']
+  };
+
+  function render(d) {
+    var s = STATUS_TEKST[d.status] || ['neutraal', 'ℹ️', d.status];
+    var html = melding(s[0], s[1], s[2],
+      d.status === 'betaling_mislukt'
+        ? 'Werk je betaalgegevens bij, anders stopt de bewaking.'
+        : 'Pakket: ' + (d.plan === 'zakelijk' ? 'Wagenpark' : 'Particulier') +
+          ' · ' + d.email);
+
+    html += '<div class="kaart"><h2>Bewaakte kentekens (' +
+      d.kentekens.length + ' van ' + d.maxKentekens + ')</h2>';
+
+    if (!d.kentekens.length) {
+      html += '<p class="prose">Er staat nog geen kenteken onder bewaking.</p>';
+    } else {
+      html += '<div class="tabel-wrap"><table class="kw"><thead><tr>' +
+        '<th>Kenteken</th><th>Sinds</th><th>Laatst gecontroleerd</th><th></th>' +
+        '</tr></thead><tbody>';
+      d.kentekens.forEach(function (k) {
+        html += '<tr><td><strong style="font-family:var(--mono);letter-spacing:.06em">' +
+          esc(k.kenteken) + '</strong></td>' +
+          '<td>' + esc((k.toegevoegd_op || '').slice(0, 10)) + '</td>' +
+          '<td>' + esc(k.laatste_check ? k.laatste_check.slice(0, 10) : 'nog niet') + '</td>' +
+          '<td><button class="knop secundair kw-weg" data-kenteken="' + esc(k.kenteken) +
+          '" style="min-height:34px;padding:0 12px;font-size:.86rem">Verwijderen</button></td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+
+    if (d.status === 'actief' && d.kentekens.length < d.maxKentekens) {
+      html += '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px">' +
+        '<label class="kw-plaat-veld" style="transform:scale(.86);transform-origin:left center">' +
+        '<span class="kw-plaat-nl" aria-hidden="true"><span aria-hidden="true">★</span>NL</span>' +
+        '<input id="kw-nieuw" type="text" maxlength="8" placeholder="XX-999-X" aria-label="Nieuw kenteken" spellcheck="false">' +
+        '</label>' +
+        '<button class="knop" id="kw-toevoegen" style="min-height:44px">Toevoegen</button></div>';
+    }
+    html += '</div>';
+
+    html += '<div class="kaart"><h2>Abonnement en facturen</h2>' +
+      '<p class="prose">Betaalmethode wijzigen, facturen bekijken of opzeggen doe je in het ' +
+      'beveiligde klantportaal van Stripe.</p>' +
+      '<button class="knop secundair" id="kw-portaal">Naar het klantportaal</button></div>';
+
+    doel.innerHTML = html;
+    koppel();
+  }
+
+  function post(body) {
+    body.t = token;
+    return fetch('/api/beheer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().then(function (d) { return { ok: r.ok, data: d }; });
+    });
+  }
+
+  function koppel() {
+    [].forEach.call(document.querySelectorAll('.kw-weg'), function (b) {
+      b.addEventListener('click', function () {
+        b.disabled = true;
+        post({ actie: 'verwijderen', kenteken: b.dataset.kenteken })
+          .then(function () { laad(); });
+      });
+    });
+
+    var nieuw = document.getElementById('kw-nieuw');
+    if (nieuw) {
+      nieuw.addEventListener('input', function () { this.value = normaliseer(this.value); });
+    }
+    var toe = document.getElementById('kw-toevoegen');
+    if (toe) {
+      toe.addEventListener('click', function () {
+        var k = normaliseer(nieuw.value);
+        if (k.length !== 6) { nieuw.focus(); return; }
+        toe.disabled = true;
+        post({ actie: 'toevoegen', kenteken: k }).then(function (r) {
+          if (!r.ok) {
+            alert(r.data && r.data.bericht ? r.data.bericht : 'Toevoegen mislukt.');
+            toe.disabled = false;
+            return;
+          }
+          laad();
+        });
+      });
+    }
+
+    var portaal = document.getElementById('kw-portaal');
+    if (portaal) {
+      portaal.addEventListener('click', function () {
+        portaal.disabled = true;
+        portaal.innerHTML = '<span class="laden"></span>';
+        post({ actie: 'portaal' }).then(function (r) {
+          if (r.ok && r.data.url) { location.href = r.data.url; return; }
+          alert(r.data && r.data.bericht ? r.data.bericht : 'Het portaal is nu niet bereikbaar.');
+          portaal.disabled = false;
+          portaal.textContent = 'Naar het klantportaal';
+        });
+      });
+    }
+  }
+
+  function laad() {
+    fetch('/api/beheer?t=' + encodeURIComponent(token))
+      .then(function (r) {
+        return r.json().then(function (d) { return { ok: r.ok, data: d }; });
+      })
+      .then(function (r) {
+        if (!r.ok) {
+          doel.innerHTML = melding('let-op', '⚠️', 'Beheerlink niet gevonden',
+            'Controleer of je de volledige link uit de e-mail hebt gebruikt.');
+          return;
+        }
+        render(r.data);
+      })
+      .catch(function () {
+        doel.innerHTML = melding('let-op', '⚠️', 'Verbinding mislukt',
+          'Probeer de pagina te vernieuwen.');
+      });
+  }
+
+  laad();
+})();
+</script>
+</body>
+</html>
