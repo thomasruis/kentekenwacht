@@ -1,0 +1,77 @@
+name: Meldingen versturen
+
+# De klok voor de waarschuwingsmotor. Het werk zelf gebeurt op Cloudflare
+# (/api/cron), want daar zit de database. Deze workflow tikt alleen en blijft
+# doortikken tot alle kentekens van vandaag gecontroleerd zijn.
+
+on:
+  schedule:
+    - cron: '5 5 * * *' # 05:05 UTC = 07:05 in Nederland (zomertijd)
+  workflow_dispatch:
+
+concurrency:
+  group: meldingen
+  cancel-in-progress: false
+
+jobs:
+  melden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Controlerondes draaien
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "::error::CRON_SECRET ontbreekt in de repository-secrets."
+            exit 1
+          fi
+
+          BASIS="${SITE_URL:-https://kentekenwacht.pages.dev}"
+          OFFSET=0
+          TOTAAL_VERWERKT=0
+          TOTAAL_VERZONDEN=0
+          TOTAAL_FOUTEN=0
+
+          # Maximaal 80 rondes van 6 kentekens = 480 kentekens per dag.
+          # Zes per ronde past binnen de 50 externe subverzoeken die de gratis
+          # Cloudflare-laag per aanroep toestaat; zie de toelichting boven in
+          # functions/api/cron.js. Op een betaald plan kan portie omhoog.
+          for RONDE in $(seq 1 80); do
+            ANTWOORD=$(curl -sS --max-time 90 -X POST \
+              -H "Authorization: Bearer ${CRON_SECRET}" \
+              "${BASIS}/api/cron?offset=${OFFSET}&portie=6")
+
+            echo "ronde ${RONDE}: ${ANTWOORD}"
+
+            VERWERKT=$(echo "$ANTWOORD"  | jq -r '.verwerkt // 0')
+            VERZONDEN=$(echo "$ANTWOORD" | jq -r '.verzonden // 0')
+            FOUTEN=$(echo "$ANTWOORD"    | jq -r '.fouten // 0')
+            KLAAR=$(echo "$ANTWOORD"     | jq -r '.klaar // true')
+
+            TOTAAL_VERWERKT=$((TOTAAL_VERWERKT + VERWERKT))
+            TOTAAL_VERZONDEN=$((TOTAAL_VERZONDEN + VERZONDEN))
+            TOTAAL_FOUTEN=$((TOTAAL_FOUTEN + FOUTEN))
+
+            if [ "$KLAAR" = "true" ]; then break; fi
+            OFFSET=$(echo "$ANTWOORD" | jq -r '.volgendeOffset')
+            sleep 2
+          done
+
+          {
+            echo "### Meldingen van vandaag"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Kentekens gecontroleerd | ${TOTAAL_VERWERKT} |"
+            echo "| E-mails verzonden | ${TOTAAL_VERZONDEN} |"
+            echo "| Fouten | ${TOTAAL_FOUTEN} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$TOTAAL_FOUTEN" -gt 0 ]; then
+            echo "::warning::${TOTAAL_FOUTEN} fout(en) tijdens de controle."
+          fi

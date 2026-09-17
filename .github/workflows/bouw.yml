@@ -1,0 +1,64 @@
+name: Site bouwen
+
+# De inhoudsmotor. Haalt elke nacht verse RDW-cijfers op, genereert de
+# statische pagina's en commit ze terug. Cloudflare Pages ziet die commit
+# en deployt automatisch. Er is dus geen Cloudflare-token voor nodig.
+
+on:
+  schedule:
+    - cron: '30 3 * * *' # 03:30 UTC = 05:30 in Nederland (zomertijd)
+  workflow_dispatch:
+    inputs:
+      max_merken:
+        description: 'Aantal merken om te genereren'
+        required: false
+        default: '60'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bouw
+  cancel-in-progress: false
+
+jobs:
+  bouwen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Tests zonder netwerk
+        run: |
+          node scripts/beveiliging-test.mjs
+          node scripts/zelftest-lokaal.mjs
+
+      - name: Zelfcontrole tegen de RDW-API
+        run: npm run verify
+
+      - name: Site genereren
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          KW_MAX_MERKEN: ${{ github.event.inputs.max_merken || '60' }}
+          KW_PRIJS_JAAR: ${{ vars.KW_PRIJS_JAAR }}
+          KW_PRIJS_ZAKELIJK: ${{ vars.KW_PRIJS_ZAKELIJK }}
+          RDW_APP_TOKEN: ${{ secrets.RDW_APP_TOKEN }}
+        run: npm run build
+
+      - name: Wijzigingen terugcommitten
+        run: |
+          git config user.name  "kentekenwacht-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public data
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen — niets te committen."
+          else
+            PAGINAS=$(find public -name 'index.html' | wc -l)
+            git commit -m "Dagelijkse build: ${PAGINAS} pagina's uit RDW-data"
+            git push
+          fi
