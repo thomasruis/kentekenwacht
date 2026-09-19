@@ -5,71 +5,160 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kentekencheck: APK, terugroepacties en voertuiggegevens | Kentekenwacht</title>
 <meta name="description" content="Gratis kentekencheck met openstaande terugroepacties, APK-vervaldatum, keuringsgebreken en alle RDW-voertuiggegevens. Geen account nodig.">
-<meta property="og:title" content="Kentekencheck: APK, terugroepacties en voertuiggegevens">
-<meta property="og:description" content="Gratis kentekencheck met openstaande terugroepacties en APK-vervaldatum, uit RDW Open Data.">
+<link rel="canonical" href="https://kentekenwacht.pages.dev/">
+<meta property="og:title" content="Kentekencheck: APK, terugroepacties en voertuiggegevens | Kentekenwacht">
+<meta property="og:description" content="Gratis kentekencheck met openstaande terugroepacties, APK-vervaldatum, keuringsgebreken en alle RDW-voertuiggegevens. Geen account nodig.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="nl_NL">
+<meta property="og:url" content="https://kentekenwacht.pages.dev/">
 <meta name="theme-color" content="#f5c518">
 <link rel="stylesheet" href="/assets/kw.css">
 <link rel="icon" href="/assets/plaat.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Kentekenwacht","url":"https://kentekenwacht.pages.dev","description":"APK, terugroepacties en voertuiggegevens uit het RDW-register","inLanguage":"nl-NL","potentialAction":{"@type":"SearchAction","target":"https://kentekenwacht.pages.dev/?kenteken={kenteken}","query-input":"required name=kenteken"}}</script>
 </head>
 <body>
 <header class="kw-kop">
   <div class="wrap">
-    <a class="kw-logo" href="/"><span class="kw-logo-mark" aria-hidden="true">NL</span>Kentekenwacht</a>
+    <a class="kw-logo" href="/">
+      <span class="kw-logo-mark" aria-hidden="true">NL</span>
+      Kentekenwacht
+    </a>
     <nav class="kw-nav">
       <a href="/">Kenteken checken</a>
+      <a href="/terugroepacties/">Terugroepacties</a>
+      <a href="/merken/">Merken</a>
       <a href="/wacht/">Bewaking</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="wrap kw-hero">
-    <h1>Check gratis of jouw auto een openstaande terugroepactie heeft</h1>
-    <p class="lead">Eén kenteken, vijf RDW-registers: APK-vervaldatum, terugroepacties,
-       keuringsgebreken en alle voertuiggegevens. Zonder account.</p>
 
-    <form id="kw-form" class="kw-zoek" autocomplete="off">
-      <label class="kw-plaat-veld" for="kw-kenteken">
-        <span class="kw-plaat-nl" aria-hidden="true"><span aria-hidden="true">★</span>NL</span>
-        <input id="kw-kenteken" name="kenteken" type="text" inputmode="text"
-               placeholder="XX-999-X" maxlength="8" spellcheck="false"
-               aria-label="Kenteken" autofocus>
-      </label>
-      <button id="kw-knop" class="knop" type="submit">Check kenteken</button>
-    </form>
-    <div id="kw-uitvoer" class="wrap verborgen" style="text-align:left;padding-top:26px"></div>
+<section class="wrap kw-hero">
+  <h1>Check gratis of jouw auto een openstaande terugroepactie heeft</h1>
+  <p class="lead">Eén kenteken, vijf RDW-registers: APK-vervaldatum, terugroepacties,
+     keuringsgebreken en alle voertuiggegevens. Zonder account.</p>
+  <form id="kw-form" class="kw-zoek" autocomplete="off">
+  <label class="kw-plaat-veld" for="kw-kenteken">
+    <span class="kw-plaat-nl" aria-hidden="true"><span aria-hidden="true">★</span>NL</span>
+    <input id="kw-kenteken" name="kenteken" type="text" inputmode="text"
+           placeholder="XX-999-X" maxlength="8" spellcheck="false"
+           aria-label="Kenteken" autofocus>
+  </label>
+  <button id="kw-knop" class="knop" type="submit">Check kenteken</button>
+</form>
+<div id="kw-uitvoer" class="wrap verborgen" style="text-align:left;padding-top:26px"></div>
+  <p class="kw-hint">Gratis · geen registratie · bron: RDW Open Data · 10.804.986 personenauto's in het register</p>
+</section>
 
-    <p class="kw-hint">Gratis · geen registratie · bron: RDW Open Data</p>
-  </section>
+<section class="wrap">
+  <div class="kaart prose">
+    <h2>Waarom een terugroepactie je vaak niet bereikt</h2>
+    <p>Fabrikanten roepen voertuigen terug als er een veiligheidsprobleem is — remmen,
+       airbags, stuurinrichting. De fabrikant schrijft dan de op dat moment bekende
+       eigenaar aan. Heb je de auto tweedehands gekocht of ben je verhuisd, dan komt die
+       brief er vaak niet, terwijl het defect er wel is.</p>
+    <p>Herstel na een terugroepactie is <strong>altijd gratis</strong> bij een
+       merkdealer, ook als de garantie allang is verlopen.</p>
+    <p class="bron-noot">Het RDW publiceert deze gegevens zelf ook, op
+       <a href="https://ovi.rdw.nl" rel="noopener">ovi.rdw.nl</a>. Daar moet je alleen
+       zelf gaan kijken — wij doen het elke dag voor je en mailen als er iets verandert.</p>
+  </div>
+</section>
 
-  <section class="wrap">
-    <div class="kaart prose">
-      <h2>Waarom een terugroepactie je vaak niet bereikt</h2>
-      <p>Fabrikanten roepen voertuigen terug als er een veiligheidsprobleem is — remmen,
-         airbags, stuurinrichting. De fabrikant schrijft dan de op dat moment bekende
-         eigenaar aan. Heb je de auto tweedehands gekocht of ben je verhuisd, dan komt
-         die brief er vaak niet, terwijl het defect er wel is.</p>
-      <p>Herstel na een terugroepactie is <strong>altijd gratis</strong> bij een
-         merkdealer, ook als de garantie allang is verlopen.</p>
-      <p class="bron-noot">Het RDW publiceert deze gegevens zelf ook, op
-         <a href="https://ovi.rdw.nl" rel="noopener">ovi.rdw.nl</a>. Daar moet je alleen
-         zelf gaan kijken — wij doen het elke dag voor je en mailen als er iets
-         verandert.</p>
-    </div>
-  </section>
+<section class="wrap">
+  <h2 class="sectie">Recent gepubliceerde terugroepacties</h2>
+  <div class="tabel-wrap">
+    <table class="kw">
+      <thead><tr><th>Categorie</th><th>Producent</th><th>Risico</th><th>Gepubliceerd</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>Klintberg and Way Parts AB</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>17-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>Jaguar Land Rover Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>17-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen en aanhangwagens - elektrische installatie</td>
+        <td>Jaguar Land Rover Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>15-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>Pon&#39;s Automobielhandel B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>15-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - krachtoverbrenging</td>
+        <td>Klintberg and Way Parts AB</td>
+        <td><span class="badge oranje">Gemiddeld</span></td>
+        <td>14-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr><tr>
+        <td>Motorrijtuigen - carrosserie (beschermingsmiddelen inzittenden)</td>
+        <td>BMW Nederland B.V.</td>
+        <td><span class="badge rood">Ernstig</span></td>
+        <td>08-09-2026</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><a href="/terugroepacties/">Alle recente terugroepacties →</a></p>
+</section>
 
-  <section class="wrap">
-    <div class="kaart" style="border-color:var(--accent)">
-      <h2>Laat het je automatisch melden</h2>
-      <p class="prose">Een terugroepactie verschijnt zonder aankondiging en een APK verloopt stil.
-         Kentekenwacht controleert jouw kenteken elke dag en mailt zodra er iets verandert.</p>
-      <p><a class="knop" href="/wacht/">Bekijk bewaking</a></p>
-    </div>
-  </section>
+<section class="wrap">
+  <h2 class="sectie">Populaire merken</h2>
+  <ul class="link-raster">
+    <li><a href="/merk/volkswagen/">Volkswagen <span style="color:var(--tekst-zwak)">1.248.294</span></a></li><li><a href="/merk/toyota/">Toyota <span style="color:var(--tekst-zwak)">786.926</span></a></li><li><a href="/merk/peugeot/">Peugeot <span style="color:var(--tekst-zwak)">652.401</span></a></li><li><a href="/merk/opel/">Opel <span style="color:var(--tekst-zwak)">648.377</span></a></li><li><a href="/merk/renault/">Renault <span style="color:var(--tekst-zwak)">647.168</span></a></li><li><a href="/merk/ford/">Ford <span style="color:var(--tekst-zwak)">626.678</span></a></li><li><a href="/merk/kia/">Kia <span style="color:var(--tekst-zwak)">509.977</span></a></li><li><a href="/merk/bmw/">Bmw <span style="color:var(--tekst-zwak)">507.476</span></a></li><li><a href="/merk/mercedes-benz/">Mercedes-Benz <span style="color:var(--tekst-zwak)">470.521</span></a></li><li><a href="/merk/volvo/">Volvo <span style="color:var(--tekst-zwak)">459.720</span></a></li><li><a href="/merk/audi/">Audi <span style="color:var(--tekst-zwak)">426.840</span></a></li><li><a href="/merk/citroen/">Citroen <span style="color:var(--tekst-zwak)">380.271</span></a></li><li><a href="/merk/hyundai/">Hyundai <span style="color:var(--tekst-zwak)">365.416</span></a></li><li><a href="/merk/skoda/">Skoda <span style="color:var(--tekst-zwak)">313.988</span></a></li><li><a href="/merk/fiat/">Fiat <span style="color:var(--tekst-zwak)">310.064</span></a></li><li><a href="/merk/suzuki/">Suzuki <span style="color:var(--tekst-zwak)">294.881</span></a></li><li><a href="/merk/nissan/">Nissan <span style="color:var(--tekst-zwak)">262.362</span></a></li><li><a href="/merk/seat/">Seat <span style="color:var(--tekst-zwak)">233.346</span></a></li><li><a href="/merk/mazda/">Mazda <span style="color:var(--tekst-zwak)">204.207</span></a></li><li><a href="/merk/mini/">Mini <span style="color:var(--tekst-zwak)">163.007</span></a></li><li><a href="/merk/mitsubishi/">Mitsubishi <span style="color:var(--tekst-zwak)">137.958</span></a></li><li><a href="/merk/tesla/">Tesla <span style="color:var(--tekst-zwak)">135.183</span></a></li><li><a href="/merk/dacia/">Dacia <span style="color:var(--tekst-zwak)">88.225</span></a></li><li><a href="/merk/honda/">Honda <span style="color:var(--tekst-zwak)">77.690</span></a></li>
+  </ul>
+  <p><a href="/merken/">Alle merken →</a></p>
+</section>
+
+<section class="wrap">
+  <div class="kaart" style="border-color:var(--accent)">
+    <h2>Laat het je automatisch melden</h2>
+    <p class="prose">Een terugroepactie verschijnt zonder aankondiging en een APK verloopt stil.
+       Kentekenwacht controleert jouw kenteken elke dag en mailt zodra er iets verandert.</p>
+    <p><a class="knop" href="/wacht/">Bekijk bewaking — vanaf € 4,50 per jaar</a></p>
+  </div>
+</section>
+
+<p class="wrap bron-noot">Gegevens bijgewerkt op 19 september 2026. Bron: RDW Open Data.</p>
+
 </main>
-
 <footer class="kw-voet">
   <div class="wrap">
     <div>
@@ -80,11 +169,11 @@
     <div>
       <a href="/over/">Over</a> ·
       <a href="/privacy/">Privacy</a> ·
-      <a href="/voorwaarden/">Voorwaarden</a>
+      <a href="/voorwaarden/">Voorwaarden</a> ·
+      <a href="/wacht/">Bewaking</a>
     </div>
   </div>
 </footer>
-
 <script src="/assets/kw.js" defer></script>
 </body>
 </html>
